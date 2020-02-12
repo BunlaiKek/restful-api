@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   "homepage": "https://github.com/BunlaiKek/restful-api#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.8.11",
     "nodemon": "^2.0.2"
   }
 }

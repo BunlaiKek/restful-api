@@ -1,11 +1,12 @@
 const express = require("express");
-
 const app = express();
 
-
-app.get("/", (req, res) => {
-    res.send("Hello World");
-});
+const productRoutes = require("./api/routes/products");
+const orderRoutes = require("./api/routes/orders");
 
 
-app.listen(3000);
+
+app.use("/products", productRoutes);
+app.use("/orders", orderRoutes);
+
+module.exports = app;
