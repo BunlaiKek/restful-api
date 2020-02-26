@@ -12,6 +12,8 @@ mongoose.connect("mongodb://localhost:27017/rest-shop", {
   useNewUrlParser: true
 });
 
+mongoose.Promise = global.Promise;
+
 app.use(morgan("dev"));
 
 app.use(
