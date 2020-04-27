@@ -14,6 +14,7 @@ mongoose.connect("mongodb://localhost:27017/rest-shop", {
 });
 
 mongoose.Promise = global.Promise;
+mongoose.set("useCreateIndex", true);
 
 app.use(morgan("dev"));
 app.use("/uploads", express.static("uploads"));
@@ -24,6 +25,7 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+
 
 app.use((req, res, next) => {
   res.header("Acess-Control-Allow-Origin", "*");

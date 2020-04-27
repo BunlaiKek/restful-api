@@ -19,12 +19,12 @@
   },
   "homepage": "https://github.com/BunlaiKek/restful-api#readme",
   "dependencies": {
-    "bcrypt": "^4.0.0",
+    "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "mongoose": "^5.9.2",
-    "morgan": "^1.9.1",
+    "mongoose": "^5.9.10",
+    "morgan": "^1.10.0",
     "multer": "^1.4.2",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.3"
   }
 }

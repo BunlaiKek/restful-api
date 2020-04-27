@@ -6,7 +6,9 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
 router.post("/signup", (req, res, next) => {
-  User.find({ email: req.body.email })
+  User.find({
+      email: req.body.email
+    })
     .exec()
     .then(user => {
       if (user.length > 0) {
@@ -50,8 +52,8 @@ router.post("/signup", (req, res, next) => {
 
 router.delete("/:userId", (req, res, next) => {
   User.deleteOne({
-    _id: req.params.userId
-  })
+      _id: req.params.userId
+    })
     .exec()
     .then(result => {
       res.status(200).json({
