@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
@@ -66,13 +67,20 @@ router.post("/login", (req, res, next) => {
           });
         }
         if (same) {
+          const token = jwt.sign({
+            email: users[0].email,
+            userId: users[0]._id
+          }, process.env.JWT_KEY, {
+            expiresIn: "1h"
+          });
           return res.status(200).json({
-            message: "Auth successful."
+            message: "Auth successful.",
+            token: token
           });
         }
-      })
-      return res.status(401).json({
-        message: "Auth failed!"
+        res.status(401).json({
+          message: "Auth failed!"
+        });
       });
 
     })
