@@ -1,123 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const UsersControlller = require("../controllers/users");
+const checkAuth = require("../middleware/check-auth");
 
-const User = require("../models/user");
+// handling incoming requests to /users
+router.post("/signup", UsersControlller.users_signup);
 
-router.post("/signup", (req, res, next) => {
-  User.find({
-      email: req.body.email
-    })
-    .exec()
-    .then(user => {
-      if (user.length > 0) {
-        return res.status(409).json({
-          message: "This email exists."
-        });
-      } else {
-        bcrypt.hash(req.body.password, 10, (err, encrypted) => {
-          if (err) {
-            return res.status(500).json({
-              error: err
-            });
-          } else {
-            const user = new User({
-              _id: new mongoose.Types.ObjectId(),
-              email: req.body.email,
-              password: encrypted
-            });
-            user
-              .save()
-              .then(result => {
-                console.log(result);
-                res.status(201).json({
-                  message: "User created",
-                  user: {
-                    email: result.email
-                  }
-                });
-              })
-              .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                  error: err
-                });
-              });
-          }
-        });
-      }
-    });
-});
+router.post("/login", UsersControlller.users_login);
 
-router.post("/login", (req, res, next) => {
-  User.find({
-      email: req.body.email
-    }).exec().then(users => {
-      if (users.length < 1) {
-        return res.status(401).json({
-          message: "Auth failed!"
-        });
-      }
-      bcrypt.compare(req.body.password, users[0].password, (err, same) => {
-        if (err) {
-          return res.status(401).json({
-            message: "Auth failed!"
-          });
-        }
-        if (same) {
-          const token = jwt.sign({
-            email: users[0].email,
-            userId: users[0]._id
-          }, process.env.JWT_KEY, {
-            expiresIn: "1h"
-          });
-          return res.status(200).json({
-            message: "Auth successful.",
-            token: token
-          });
-        }
-        res.status(401).json({
-          message: "Auth failed!"
-        });
-      });
-
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-});
-
-
-
-router.delete("/:userId", (req, res, next) => {
-  User.deleteOne({
-      _id: req.params.userId
-    })
-    .exec()
-    .then(result => {
-      res.status(200).json({
-        message: "User deleted",
-        request: {
-          type: "POST",
-          url: "http://localhost:3000/users/signup",
-          body: {
-            email: "String",
-            password: "String"
-          }
-        }
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-});
+router.delete("/:userId", checkAuth, UsersControlller.users_delete);
 
 module.exports = router;
