@@ -1,16 +1,15 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
-const userRoutes = require("./api/routes/users")
+const userRoutes = require("./api/routes/users");
 
 mongoose.connect("mongodb://localhost:27017/rest-shop", {
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 });
 
 mongoose.Promise = global.Promise;
@@ -20,12 +19,11 @@ app.use(morgan("dev"));
 app.use("/uploads", express.static("uploads"));
 
 app.use(
-  bodyParser.urlencoded({
-    extended: false
+  express.urlencoded({
+    extended: false,
   })
 );
-app.use(bodyParser.json());
-
+app.use(express.json());
 
 app.use((req, res, next) => {
   res.header("Acess-Control-Allow-Origin", "*");
@@ -54,8 +52,8 @@ app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
     error: {
-      message: error.message
-    }
+      message: error.message,
+    },
   });
 });
 
