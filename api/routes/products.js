@@ -10,13 +10,14 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, callback) => {
     callback(null, new Date().getTime() + file.originalname);
-  }
+  },
 });
 
 const fileFilter = (req, file, callback) => {
   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
     callback(null, true);
   } else {
+    // can throw error in the first argment of callback. Just replace that null
     callback(null, false);
   }
 };
@@ -24,16 +25,20 @@ const fileFilter = (req, file, callback) => {
 const upload = multer({
   storage: storage,
   limits: {
-    fieldSize: 1024 * 1024 * 5
+    fieldSize: 1024 * 1024 * 5,
   },
-  fileFilter: fileFilter
+  fileFilter: fileFilter,
 });
-
 
 // handling incoming requests to /products
 router.get("/", ProductsController.products_get_all);
 
-router.post("/", checkAuth, upload.single("productImage"), ProductsController.products_new);
+router.post(
+  "/",
+  checkAuth,
+  upload.single("productImage"),
+  ProductsController.products_new
+);
 
 router.get("/:productId", ProductsController.products_get_one);
 

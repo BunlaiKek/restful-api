@@ -7,10 +7,15 @@ const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
 const userRoutes = require("./api/routes/users");
 
-mongoose.connect("mongodb://localhost:27017/rest-shop", {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-});
+mongoose.connect(
+  "mongodb+srv://bunlai:" +
+    process.env.MONGO_ATLAS_PW +
+    "@node-rest-shop.3xt3r.mongodb.net/shop?retryWrites=true&w=majority",
+  {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  }
+);
 
 mongoose.Promise = global.Promise;
 mongoose.set("useCreateIndex", true);
@@ -23,6 +28,7 @@ app.use(
     extended: false,
   })
 );
+
 app.use(express.json());
 
 app.use((req, res, next) => {

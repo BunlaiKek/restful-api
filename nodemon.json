@@ -1,5 +1,6 @@
 {
-    "env": {
-        "JWT_KEY": "bunlai"
-    }
+  "env": {
+    "JWT_KEY": "bunlai",
+    "MONGO_ATLAS_PW": "bunlai168"
+  }
 }
