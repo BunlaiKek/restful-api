@@ -65,6 +65,7 @@ exports.users_login = (req, res, next) => {
           });
         }
         if (same) {
+          const currentMill = new Date().getTime();
           const token = jwt.sign(
             {
               email: users[0].email,
@@ -79,6 +80,7 @@ exports.users_login = (req, res, next) => {
             message: "Auth successful.",
             token: token,
             user_id: users[0]._id,
+            expires_at: currentMill + 1 * 60 * 60 * 1000,
           });
         }
         return res.status(401).json({
