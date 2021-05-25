@@ -12,7 +12,7 @@ exports.products_get_all = (req, res, next) => {
             name: prod.name,
             price: prod.price,
             productImage:
-              "http://localhost:3000/" + prod.productImage.replace("\\", "/"),
+              "http://172.17.0.70:3000/" + prod.productImage.replace("\\", "/"),
             _id: prod._id,
             request: {
               type: "GET",
