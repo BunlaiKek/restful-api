@@ -73,14 +73,14 @@ exports.users_login = (req, res, next) => {
             },
             process.env.JWT_KEY,
             {
-              expiresIn: "1h",
+              expiresIn: "24h",
             }
           );
           return res.status(200).json({
             message: "Auth successful.",
             token: token,
             user_id: users[0]._id,
-            expires_at: currentMill + 1 * 60 * 60 * 1000,
+            expires_at: currentMill + 24 * 60 * 60 * 1000,
           });
         }
         return res.status(401).json({
